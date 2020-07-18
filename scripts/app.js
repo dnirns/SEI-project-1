@@ -8,22 +8,45 @@ function init() {
   const resetButton = document.querySelector('#reset-button')
 
 
-  //*EXECUTION
+  //?EXECUTION
+
+  //*PLAYER AND ENEMIES
+
   //ADD PLAYER (+ SET START POSITION)
   let playerPosition = 390
   function createPlayer() {
-    cells[playerPosition].classList.add('red-square')
+    cells[playerPosition].classList.add('player')
+  }
+  //ADD ENEMY
+  let enemyPosition = 10
+  function createEnemy() {
+    cells[enemyPosition].classList.add('enemy')
+  }
+  //REMOVE PLAYER
+  function removePlayer() {
+    cells[playerPosition].classList.remove('player')
+  }
+  //REMOVE ENEMY
+  function removeEnemy() {
+    cells[enemyPosition].classList.remove('enemy')
   }
 
-  //REMOVE PLAYER
-  function removeRedSquare() {
-    cells[playerPosition].classList.remove('red-square')
+
+
+  //* START GAME
+
+  function startGame() {
+    createPlayer()
+    createEnemy()
   }
+
 
   //RESET - REMOVE PLAYER AND RESET POSITION FOR NEXT START
   function reset() {  
-    removeRedSquare()
+    removePlayer()
     playerPosition = 390
+    removeEnemy()
+    enemyPosition = 10
   }
   
   //MOVE PLAYER - left key 37 - right key 39
@@ -32,11 +55,11 @@ function init() {
     const playerMoveLeft = playerPosition - 1
     const playerMoveRight = playerPosition + 1
     if (e.keyCode === 37) {
-      removeRedSquare()
+      removePlayer()
       playerPosition = playerMoveLeft
       createPlayer()
     } else if (e.keyCode === 39) {
-      removeRedSquare()
+      removePlayer()
       playerPosition = playerMoveRight
       createPlayer()
     } else {
@@ -47,7 +70,7 @@ function init() {
 
   //EVENTS
   resetButton.addEventListener('click', reset)
-  startButton.addEventListener('click', createPlayer)
+  startButton.addEventListener('click', startGame)
   document.addEventListener('keydown', movePlayer)
 
 
@@ -66,7 +89,7 @@ function init() {
     for (let i = 0; i < numberOfCells; i++) {
       const cell = document.createElement('div')
       cells.push(cell)
-      cell.innerHTML = '.'
+      cell.innerHTML = i
       grid.appendChild(cell)
       // console.log('clicked me')
     }
