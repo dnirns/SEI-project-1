@@ -28,17 +28,22 @@ function init() {
   
   //MOVE PLAYER - left key 37 - right key 39
   function movePlayer(e){
-    removeRedSquare()
+    
     const playerMoveLeft = playerPosition - 1
     const playerMoveRight = playerPosition + 1
     if (e.keyCode === 37) {
+      removeRedSquare()
       playerPosition = playerMoveLeft
       createPlayer()
     } else if (e.keyCode === 39) {
+      removeRedSquare()
       playerPosition = playerMoveRight
       createPlayer()
-    }  
-  }
+    } else {
+      return false
+    }
+  } 
+  
 
   //EVENTS
   resetButton.addEventListener('click', reset)
