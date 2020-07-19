@@ -29,7 +29,7 @@ function init() {
   }
   //REMOVE ENEMIES
   function removeAllEnemies() {
-    cells[enemyPosition].classList.remove('enemy')
+    enemies.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy'))
   }
 
 
@@ -40,26 +40,28 @@ function init() {
   function startClick() {
     createPlayer()
     createEnemy()
-    // moveEnemy()
+    moveEnemy()
   }
   function startEnter(e) {
     if (e.keyCode === 13) {
       createPlayer()
       createEnemy()
+      moveEnemy()
     }
   }
 
   //* RESET
   //BUTTON OR R KEY RESETS
   function resetClick() {  
+    clearInterval(enemyTimerId)
     removePlayer()
     playerPosition = 217
     removeAllEnemies()
     enemyPosition = 3
   }
-
   function resetKey(e) {
     if (e.keyCode === 82) {
+      clearInterval(enemyTimerId)
       removePlayer()
       playerPosition = 217
       removeAllEnemies()
@@ -87,10 +89,17 @@ function init() {
   } 
   
 
-  
   //ENEMY MOVEMENT
+
+
+  //BOUNDARIES:
+
+  // const enemyLimitLeft
+  // const enemyLimitLeft
+
+  let enemyTimerId = null
   function moveEnemy() {     
-    setInterval(() => {   
+    enemyTimerId = setInterval(() => {   
       removeAllEnemies()  
       enemyPosition = enemyPosition + 1 
       createEnemy()
@@ -109,7 +118,7 @@ function init() {
   //CLICKS
   resetButton.addEventListener('click', resetClick)
   startButton.addEventListener('click', startClick)
-  startButton.addEventListener('click', moveEnemy)
+  // startButton.addEventListener('click', moveEnemy)
 
   //KEYS
   document.addEventListener('keyup', startEnter)
