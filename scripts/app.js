@@ -2,7 +2,6 @@ function init() {
 
   //*ELEMENTS
   const grid = document.querySelector('.game-grid')
-  
   const startButton = document.querySelector('#start-button')
   const resetButton = document.querySelector('#reset-button')
   // const moveEnemyButton = document.querySelector('#move-enemy')
@@ -25,7 +24,7 @@ function init() {
     for (let i = 0; i < numberOfCells; i++) {
       const cell = document.createElement('div')
       cells.push(cell)
-      cell.innerHTML = '.'
+      cell.innerHTML = i
       grid.appendChild(cell)
       // console.log('clicked me')
     }
@@ -95,7 +94,7 @@ function init() {
 
 
   //* MOVEMENT
-
+  
   //MOVE PLAYER WITH KEYS
   //STOPPED PLAYER MOVEMENT PAST GRID LIMIT BUT NEED TO FIND WAY TO NOT HARD CODE CELLS...
   function movePlayer(e) {
@@ -159,7 +158,7 @@ function init() {
 
 
 
-  
+
   makeGrid()
   createEnemy()
   createPlayer()

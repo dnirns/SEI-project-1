@@ -1,9 +1,9 @@
-/* 
+
 @font-face {
   font-family: 'Ancient-Modern-Tales';
   src: url('assets/fonts/AncientModernTales-a7Po.ttf');
 
-} */
+}
 
 * {   
   box-sizing: border-box;
@@ -20,6 +20,7 @@ body {
   flex-direction: column; 
   align-items: center; 
   justify-content: center; 
+  min-height: 100vh;
 }
 
 
