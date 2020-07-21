@@ -39,24 +39,25 @@ function init() {
   }
 
   function createEnemyRow1() {
+    console.log('enemies row 1 array' , enemiesRow1Array)
     enemiesRow1Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-1', 'enemy'))
   }
 
-  // function createEnemyRow2() {
-  //   enemiesRow2Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-2' , 'enemy'))
-  // }
+  function createEnemyRow2() {
+    enemiesRow2Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-2' , 'enemy'))
+  }
 
-  // function createEnemyRow3() {
-  //   enemiesRow3Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-3' , 'enemy'))
-  // }
+  function createEnemyRow3() {
+    enemiesRow3Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-3' , 'enemy'))
+  }
 
-  // function createEnemyRow4() {
-  //   enemiesRow4Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-4' , 'enemy'))
-  // }
+  function createEnemyRow4() {
+    enemiesRow4Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-4' , 'enemy'))
+  }
 
-  // function createEnemyRow5() {
-  //   enemiesRow5Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-5' , 'enemy'))
-  // }
+  function createEnemyRow5() {
+    enemiesRow5Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-5' , 'enemy'))
+  }
   function createLaser() {
     cells[laserPosition].classList.add('laser')
   }
@@ -189,6 +190,7 @@ function init() {
     let isMovingRight = true
     let numberOfMoves = 0
     enemyTimerId = setInterval(() => {
+      console.log('enemy is moving')
       if (isMovingRight) {
         moveRight()
       } else {
@@ -224,17 +226,24 @@ function init() {
         removeLaser()
         laserPosition = laserPosition - width
         createLaser()
-      }
-
+      } 
       if (enemiesRow1Array.includes(laserPosition)) {
         enemiesRow1Array = enemiesRow1Array.filter(enemy => {
-          enemy !== laserPosition
-          console.log(laserPosition)
+          return enemy !== laserPosition
+          // cells[enemy].classList.remove('enemy')
+    
+          // console.log(enemiesRow1Array)
         })
-      }
-
+      }     
     }, 50)
-  }
+  } 
+    
+  
+    
+
+
+
+
 
   //* DECLARE FUNCTIONS ON LOAD
 
