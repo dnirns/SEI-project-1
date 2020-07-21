@@ -54,22 +54,22 @@ body {
   background-color: mediumpurple;
 }
 
-.enemy.enemy-row-1  {
+.enemy {
   background-color: lawngreen;
 }
 
-.enemy.enemy-row-2  {
+/* .enemy  {
   background-color: rgb(235, 33, 205);
-}
-.enemy.enemy-row-3 {
+} */
+/* .enemy {
   background-color: rgb(0, 252, 185);
 }
-.enemy.enemy-row-4 {
+.enemy {
   background-color: rgb(26, 84, 134);
 }
-.enemy.enemy-row-5 {
+.enemy {
   background-color: rgb(0, 208, 255);
-}
+} */ 
 .laser {
   background-color: red;
 }

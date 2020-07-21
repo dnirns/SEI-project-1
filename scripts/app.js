@@ -20,7 +20,7 @@ function init() {
   const enemiesRow3Array = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
   const enemiesRow4Array = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
   let enemiesRow5Array = [64, 65, 66, 67, 68, 69, 70, 71, 72, 73]
-  let enemyPosition = 0
+  // let enemyPosition = 0
   let playerPosition = 240
   let laserPosition = playerPosition
 
@@ -39,25 +39,24 @@ function init() {
   }
 
   function createEnemyRow1() {
-    console.log('enemies row 1 array' , enemiesRow1Array)
-    enemiesRow1Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-1', 'enemy'))
+    enemiesRow1Array.forEach(enemy => cells[enemy].classList.add('enemy'))
   }
 
-  function createEnemyRow2() {
-    enemiesRow2Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-2' , 'enemy'))
-  }
+  // function createEnemyRow2() {
+  //   enemiesRow2Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-2' , 'enemy'))
+  // }
 
-  function createEnemyRow3() {
-    enemiesRow3Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-3' , 'enemy'))
-  }
+  // function createEnemyRow3() {
+  //   enemiesRow3Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-3' , 'enemy'))
+  // }
 
-  function createEnemyRow4() {
-    enemiesRow4Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-4' , 'enemy'))
-  }
+  // function createEnemyRow4() {
+  //   enemiesRow4Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-4' , 'enemy'))
+  // }
 
-  function createEnemyRow5() {
-    enemiesRow5Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-5' , 'enemy'))
-  }
+  // function createEnemyRow5() {
+  //   enemiesRow5Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-5' , 'enemy'))
+  // }
   function createLaser() {
     cells[laserPosition].classList.add('laser')
   }
@@ -73,11 +72,11 @@ function init() {
   }
 
   function removeAllEnemies() {
-    enemiesRow1Array.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy-row-1'))
-    enemiesRow2Array.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy-row-2'))
-    enemiesRow3Array.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy-row-3'))
-    enemiesRow4Array.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy-row-4'))
-    enemiesRow5Array.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy-row-5'))
+    enemiesRow1Array.forEach(enemy => cells[enemy].classList.remove('enemy'))
+    enemiesRow2Array.forEach(enemy => cells[enemy].classList.remove('enemy'))
+    enemiesRow3Array.forEach(enemy => cells[enemy].classList.remove('enemy'))
+    enemiesRow4Array.forEach(enemy => cells[enemy].classList.remove('enemy'))
+    enemiesRow5Array.forEach(enemy => cells[enemy].classList.remove('enemy'))
   }
   // CREATE ALL ENEMY ROWS COMBINED FUNCTION
   function createAllEnemies() {
@@ -165,45 +164,68 @@ function init() {
 
   //* ENEMY MOVEMENT
 
+  const enemyDirectionsPattern = [
+    1, 1, 1, 1, 1, 1,
+    width,
+    -1, -1, -1, -1,
+    width,
+    1, 1
+  ]
 
-
-  //? DEFINE TOP LIMIT
-
-  
-
-
-  function moveRight() {
-    removeAllEnemies()
-    enemyPosition = enemyPosition + 1
-    createAllEnemies()
-  }
-
-  function moveLeft() {
-    removeAllEnemies()
-    enemyPosition = enemyPosition - 1
-    createAllEnemies()
-  }
-
-  let enemyTimerId = null
+  let enemiesActions = null
 
   function moveEnemy() {
-    let isMovingRight = true
-    let numberOfMoves = 0
-    enemyTimerId = setInterval(() => {
-      console.log('enemy is moving')
-      if (isMovingRight) {
-        moveRight()
-      } else {
-        moveLeft()
-      }
-      numberOfMoves++
-      if (numberOfMoves === 6) {
-        createEnemyRow1()
-        numberOfMoves = 0
-        isMovingRight = !isMovingRight
-      }
+    enemiesActions = setInterval(() => {
+      enemiesRow1Array.forEach(enemy => cells[enemy].classList.remove('enemy'))
+
+      enemiesRow1Array = enemiesRow1Array.map(enemy => {
+        return enemy + enemyDirectionsPattern
+      })
+
+      enemiesRow1Array.forEach(enemy => {
+        cells[enemy].classList.add('enemy')
+      })
+
+
+      // cells[enemy].classList.add('enemy')  
     }, 500)
   }
+
+  // function enemyGridPosition() {
+  //   enemiesRow1Array.forEach(enemy => cells[enemy].classList.add('enemy'))
+  // }
+  // enemyGridPosition()
+  // // function moveRight() {
+  //   removeAllEnemies()
+  //   // enemyPosition = enemyPosition + 1
+  //   createAllEnemies()
+  // }
+
+  // function moveLeft() {
+  //   removeAllEnemies()
+  //   // enemyPosition = enemyPosition - 1
+  //   createAllEnemies()
+  // }
+
+  // let enemyTimerId = null
+
+  // function moveEnemy() {
+  //   let isMovingRight = true
+  //   let numberOfMoves = 0
+  //   enemyTimerId = setInterval(() => {
+  //     if (isMovingRight) {
+  //       moveRight()
+  //     } else {
+  //       moveLeft()
+  //     }
+  //     numberOfMoves++
+  //     if (numberOfMoves === 6) {
+  //       createEnemyRow1()
+  //       numberOfMoves = 0
+  //       isMovingRight = !isMovingRight
+  //     }
+  //   }, 500)
+  // }
 
 
   //* PLAYER SHOOT
@@ -213,36 +235,27 @@ function init() {
 
   function moveLaser() {
     laserPosition = playerPosition
-  
 
-
-    laserTimerId = setInterval(() => {  
-      // laserPosition = laserPosition - width??
-      if (cells[laserPosition].classList.contains('enemy') || laserPosition < width) {            
+    laserTimerId = setInterval(() => {
+      if (cells[laserPosition].classList.contains('enemy') || laserPosition < width) {
         cells[laserPosition].classList.remove('enemy')
-        removeLaser() 
+        removeLaser()
         clearInterval(laserTimerId)
       } else {
         removeLaser()
         laserPosition = laserPosition - width
         createLaser()
-      } 
+      }
+
       if (enemiesRow1Array.includes(laserPosition)) {
         enemiesRow1Array = enemiesRow1Array.filter(enemy => {
-          return enemy !== laserPosition
-          // cells[enemy].classList.remove('enemy')
-    
-          // console.log(enemiesRow1Array)
+          enemy !== laserPosition
+          console.log(laserPosition)
         })
-      }     
+      }
+
     }, 50)
-  } 
-    
-  
-    
-
-
-
+  }
 
 
   //* DECLARE FUNCTIONS ON LOAD
