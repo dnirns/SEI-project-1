@@ -68,9 +68,11 @@ body {
   background-color: rgb(26, 84, 134);
 }
 .enemy-row-5 {
-  background-color: rgb(240, 44, 44);
+  background-color: rgb(0, 208, 255);
 }
-
+.laser {
+  background-color: red;
+}
 button {
   margin: 5px 30px;
   font-family: 'Ancient-Modern-Tales';

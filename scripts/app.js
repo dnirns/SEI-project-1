@@ -1,10 +1,25 @@
 function init() {
+  //* GENERATE GRID //
+
+  const width = 16
+  const numberOfCells = width * width
+
+  function makeGrid() {
+    for (let i = 0; i < numberOfCells; i++) {
+      const cell = document.createElement('div')
+      cells.push(cell)
+      cell.innerHTML = i
+      grid.appendChild(cell)
+    }
+  }
+
+
 
   //* DOM ELEMENTS //
   const grid = document.querySelector('.game-grid')
   const startButton = document.querySelector('#start-button')
   const resetButton = document.querySelector('#reset-button')
- 
+
 
   //* DOM EXECUTION //
 
@@ -13,20 +28,31 @@ function init() {
   function createPlayer() {
     cells[playerPosition].classList.add('player')
   }
+
   function createEnemyRow1() {
     enemiesRow1Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-1'))
   }
+
   function createEnemyRow2() {
     enemiesRow2Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-2'))
   }
+
   function createEnemyRow3() {
     enemiesRow3Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-3'))
   }
+
   function createEnemyRow4() {
     enemiesRow4Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-4'))
   }
+
   function createEnemyRow5() {
     enemiesRow5Array.forEach(enemy => cells[enemyPosition + enemy].classList.add('enemy-row-5'))
+  }
+  function createLaser() {
+    cells[laserPosition].classList.add('laser')
+  }
+  function removeLaser() {
+    cells[laserPosition].classList.remove('laser')
   }
 
   //? REMOVE PLAYER AND ENEMIES
@@ -34,6 +60,7 @@ function init() {
   function removePlayer() {
     cells[playerPosition].classList.remove('player')
   }
+
   function removeAllEnemies() {
     enemiesRow1Array.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy-row-1'))
     enemiesRow2Array.forEach(enemy => cells[enemyPosition + enemy].classList.remove('enemy-row-2'))
@@ -70,31 +97,16 @@ function init() {
   const enemiesRow5Array = [64, 65, 66, 67, 68, 69, 70, 71, 72, 73]
   let enemyPosition = 0
   let playerPosition = 240
+  let laserPosition = playerPosition
 
 
-
-
-
-  //* GENERATE GRID //
-
-  const width = 16
-  const numberOfCells = width * width
-
-  function makeGrid() {
-    for (let i = 0; i < numberOfCells; i++) {
-      const cell = document.createElement('div')
-      cells.push(cell)
-      cell.innerHTML = i
-      grid.appendChild(cell)
-    }
-  }
 
 
 
   //* GAME FUNCTIONS //
-  
+
   //? START GAME - BUTTON AND ENTER KEY
-  
+
   function startClick() {
     createPlayer()
     createAllEnemies()
@@ -128,8 +140,6 @@ function init() {
     }
   }
 
-
-
   //* MOVEMENT //
 
   //? MOVE PLAYER WITH KEYS
@@ -145,6 +155,8 @@ function init() {
       removePlayer()
       playerPosition = playerMoveRight
       createPlayer()
+    } else if (e.keyCode === 32 ) {
+      moveLaser()
     }
   }
 
@@ -156,6 +168,7 @@ function init() {
     enemyPosition = enemyPosition + 1
     createAllEnemies()
   }
+
   function moveLeft() {
     removeAllEnemies()
     enemyPosition = enemyPosition - 1
@@ -163,35 +176,64 @@ function init() {
   }
 
   let enemyTimerId = null
-  
+
   function moveEnemy() {
-    let isMovingRight = true 
+    let isMovingRight = true
     let numberOfMoves = 0
     enemyTimerId = setInterval(() => {
       if (isMovingRight) {
-        moveRight()        
+        moveRight()
       } else {
-        moveLeft()     
-      }    
+        moveLeft()
+      }
       numberOfMoves++ // Regardless of direction, we do the below then incease your number of moves
-      if (numberOfMoves === 6) { 
-        createEnemyRow1() 
+      if (numberOfMoves === 6) {
+        createEnemyRow1()
         numberOfMoves = 0 //  set this back to 0
         isMovingRight = !isMovingRight //  and flip a boolean, is isMovingRight, your moving right, is false, going left       
-      } 
+      }
     }, 1500)
   }
 
 
+  //* PLAYER SHOOT
+
+  //PLAYER POSITION STARTING POINT
+  //LASER POSITION = PLAYERPOSITION - WIDTH
+  let laserTimerId  = null
+
+  function moveLaser() {   
+    // const isMoving = true
+    // let numOfMoves = 0
+    laserPosition = playerPosition
+    laserTimerId = setInterval(() => {
+      // numOfMoves++     
+      if (cells[laserPosition].classList.contains('enemy-row-5')) {       
+        removeLaser() 
+        clearInterval(laserTimerId)      
+        cells[laserPosition].classList.remove('enemy-row-5')                         
+      } else {
+        removeLaser()
+        laserPosition = laserPosition - width
+        createLaser()        
+      } 
+    }, 100)
+  }
+
+  
+  // moveLaser()
 
 
+  // console.log(cells[width])
+  // createLaser()
   //* DECLARE FUNCTIONS ON LOAD
 
   makeGrid()
   createAllEnemies()
   createPlayer()
+  // createLaser()
 
-  //PRINT PRESSED KEYCODE IN CONSOLE:
+  // PRINT PRESSED KEYCODE IN CONSOLE:
   // function printKey(e) {
   //   console.log(e.keyCode)
   // }
