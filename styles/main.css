@@ -50,6 +50,15 @@ body {
   width: 30px;
 }
 
+.game-over {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 480px;
+  width: 480px;
+  background-color: aquamarine;
+}
 .player {
   background-color: mediumpurple;
 }
@@ -77,9 +86,9 @@ body {
 .explosion {
   height: 40px;
   width: 40px;
-    background-image: url('../assets/sprites/explosion.gif');
-    background-repeat: no-repeat;
-    background-size: contain;
+  background-image: url('../assets/sprites/explosion.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 button {
   margin: 5px 30px;
