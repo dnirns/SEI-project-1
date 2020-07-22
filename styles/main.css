@@ -73,6 +73,14 @@ body {
 .laser {
   background-color: red;
 }
+
+.explosion {
+  height: 40px;
+  width: 40px;
+    background-image: url('../assets/sprites/explosion.gif');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
 button {
   margin: 5px 30px;
   font-family: 'Ancient-Modern-Tales';
