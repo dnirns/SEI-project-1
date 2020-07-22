@@ -28,7 +28,7 @@ function init() {
   const startButton = document.querySelector('#start-button')
   const resetButton = document.querySelector('#reset-button')
 
-  const gameOver = document.querySelector('.game-over')
+ 
 
   //* DOM EXECUTION //
   //? CREATE PLAYER AND ENEMIES
@@ -152,7 +152,7 @@ function init() {
         moveEnemiesDown()
       }
       if (cells[bottomLeftGridIndex].classList.contains('enemy')) {
-        
+      
         console.log('enemies over boundries - game over')
         
         clearInterval(enemyTimerId)
@@ -161,9 +161,11 @@ function init() {
         console.log('player hit - game over')
         clearInterval(enemyTimerId)
       }
-    }, 50)
+
+    }, 500)
   }
 
+    
   
   //* PLAYER SHOOT
   function createLaser() {
@@ -176,6 +178,12 @@ function init() {
   let isLaserShooting = true
 
   let laserTimerId = null
+  let explosionTimeoutId = null
+
+
+  function addExplosion() {
+    cells[laserPosition].classList.add('explosion')
+  }
 
   function moveLaser() {
     if (!isLaserShooting) {
@@ -186,28 +194,36 @@ function init() {
     laserPosition = playerPosition
 
     const laserMovingUp = true
+  
+    // clearTimeout(explosionTimerId)
     clearInterval(laserTimerId)
-    laserTimerId = setInterval(() => {
-      
-      console.log('timer running')    
-      if (cells[laserPosition].classList.contains('enemy')) {
-        console.log('collision')
-        clearInterval(laserTimerId) 
-        isLaserShooting = true        
-        cells[laserPosition].classList.remove('enemy')       
-        enemyPositions = enemyPositions.filter(enemy => enemy !== laserPosition)
+
     
-        removeLaser()             
-        // areEnemiesAlive()       
-      } else if (laserPosition < width) {     
-        removeLaser()
+    
+    laserTimerId = setInterval(() => {  
+      
+      if (cells[laserPosition].classList.contains('enemy')) {
+        clearInterval(laserTimerId)      
+        isLaserShooting = true 
+        cells[laserPosition].classList.remove('enemy')
+        removeLaser()  
+                            
+        addExplosion() 
+        explosionTimeoutId = setTimeout(() => {
+          cells[laserPosition].classList.remove('explosion')
+        }, 600 )  
         
-        clearInterval(laserTimerId)
+        enemyPositions = enemyPositions.filter(enemy => enemy !== laserPosition)
+  
+      } else if (laserPosition < width) {            
+        clearInterval(laserTimerId)     
+        removeLaser()     
         isLaserShooting = true
-      } else if (laserMovingUp) {
+      } else if (laserMovingUp) {        
         removeLaser()
         laserPosition = laserPosition - width
         createLaser()
+       
       }
       if (Array.isArray(enemyPositions) && enemyPositions.length) {
         console.log(enemyPositions.length + ' enemies still alive')
@@ -219,11 +235,12 @@ function init() {
         removeAllEnemies()
         clearInterval(laserTimerId)
         clearInterval(enemyTimerId)
-        
         alert('WINNER WINNER!')
       }     
-    }, 20)
+    }, 100)
+
     
+
   }
 
   //* SPRITES
@@ -238,17 +255,7 @@ function init() {
   //?WIN:
   //? NO ENEMIES LEFT - WINNER MESSAGE / SCREEN AND RESET
 
-  // function areEnemiesAlive() {
-  //   console.log(`there are ${enemyPositions.length} enemies left`)
-  //   //CHECK IF ENEMYPOSITIONS ARRAY IS EMPTY - IF IT IS, RETURN FALSE = GAME WON
-  //   if (Array.isArray(enemyPositions) && enemyPositions.length) {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
-  
-  
+
 
 
   //* DECLARE FUNCTIONS ON LOAD
@@ -257,7 +264,7 @@ function init() {
   createPlayer()
   
   
-  // cells[100].classList.add('explosion')
+  // 
   // PRINT PRESSED KEYCODE IN CONSOLE:
   // function printKey(e) {
   //   console.log(e.keyCode)
