@@ -31,11 +31,14 @@ function init() {
   const startButton = document.querySelector('#start-button')
   const resetButton = document.querySelector('#reset-button')
   const gameOverText = document.querySelector('.game-over')
+  const gameWonText = document.querySelector('.game-won')
   const music = new Audio('./assets/audio/Feeble-Screams-from-Forests-unknown-8 bit.mp3')
   const explosionAudio = new Audio('./assets/audio/explosion_big_44.wav')
   const enemyHitAudio = new Audio('./assets/audio/explosion_29.wav')
   const laserAudio = new Audio('./assets/audio/laser_014.mp3')
   const enemyDeathAudio = new Audio('./assets/audio/ghost-death.mp3')
+  const gameOverLaugh = new Audio('./assets/audio/wickedmalelaugh1.mp3')
+  const startSfx = new Audio('./assets/audio/Retro_Game_Sounds_SFX_36.wav')
 
   //* DOM EXECUTION //
   //? CREATE PLAYER AND ENEMIES
@@ -67,6 +70,7 @@ function init() {
   //* GAME FUNCTIONS //
   //? START GAME - BUTTON AND ENTER KEY
   function startClick() {
+    startSfx.play()
     music.play()
     startButton.style.visibility = 'hidden'
     gameWrapper.style.visibility = 'visible'
@@ -76,6 +80,7 @@ function init() {
   }
   function startEnter(e) {
     if (e.keyCode === 13) {  
+      startSfx.play()
       music.play()
       startButton.style.visibility = 'hidden' 
       gameWrapper.style.visibility = 'visible'
@@ -86,10 +91,12 @@ function init() {
   }
   //? RESET GAME - BUTTON AND KEYBOAD INPUT
   function resetClick() {
+    startSfx.play()
     location.reload() 
   }
-  function resetKey(e) {
+  function resetKey(e) {  
     if (e.keyCode === 82) {
+      startSfx.play()
       location.reload() 
     }
   }
@@ -170,14 +177,16 @@ function init() {
         cells[playerPosition].classList.add('explosion-no-loop')
         playerPosition = null
         removeAllEnemies()
+        gameOverLaugh.play()
+        music.pause()
+        music.currentTime = 0
         gameOverText.style.visibility = 'visible'    
         resetButton.style.visibility = 'visible'
         resetButton.style.animation = 'blink 2s linear infinite'   
         clearInterval(enemyTimerId)
       }
 
-    }, 500
-    )
+    }, 500)
   }
 
     
@@ -191,11 +200,9 @@ function init() {
   }
   let isLaserShooting = true
   let laserTimerId = null
-
   function addExplosion() {
     cells[laserPosition].classList.add('explosion')
   }
-
   function moveLaser() {
     if (!isLaserShooting) {       
       return
@@ -235,9 +242,13 @@ function init() {
         removeAllEnemies()
         clearInterval(laserTimerId)
         clearInterval(enemyTimerId)
-        alert('WINNER WINNER!')
+        music.pause()
+        music.currentTime = 0
+        gameWonText.style.visibility = 'visible'    
+        resetButton.style.visibility = 'visible'
+        // alert('WINNER WINNER!')
       }     
-    }, 20)
+    }, 30)
 
     
 
