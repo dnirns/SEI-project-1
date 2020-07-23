@@ -27,9 +27,8 @@ function init() {
   const grid = document.querySelector('.game-grid')
   const startButton = document.querySelector('#start-button')
   const resetButton = document.querySelector('#reset-button')
+  
 
-
- 
 
   //* DOM EXECUTION //
   //? CREATE PLAYER AND ENEMIES
@@ -70,30 +69,26 @@ function init() {
   //* GAME FUNCTIONS //
   //? START GAME - BUTTON AND ENTER KEY
   function startClick() {
-    // createPlayer()
-    // createAllEnemies()
+    startButton.style.visibility = 'hidden'
+    createPlayer()
+    createAllEnemies()
     moveEnemies()
   }
   function startEnter(e) {
-    if (e.keyCode === 13) {
-      // createPlayer()
-      // createAllEnemies()
+    if (e.keyCode === 13) {  
+      startButton.style.visibility = 'hidden' 
+      createPlayer()
+      createAllEnemies()
       moveEnemies()
     }
   }
   //? RESET GAME - BUTTON AND KEYBOAD INPUT
   function resetClick() {
-    clearInterval(enemyTimerId)
-    removePlayer()
-    playerPosition = 240
-    removeAllEnemies()
+    location.reload() 
   }
   function resetKey(e) {
     if (e.keyCode === 82) {
-      clearInterval(enemyTimerId)
-      removePlayer()
-      playerPosition = 240
-      removeAllEnemies()
+      location.reload() 
     }
   }
   //* MOVEMENT //
@@ -153,17 +148,30 @@ function init() {
         moveEnemiesDown()
       }
       if (cells[bottomLeftGridIndex].classList.contains('ghost-shriek')) {
-      
-        console.log('enemies over boundries - game over')
-        
         clearInterval(enemyTimerId)
+        removePlayer()
+        cells[playerPosition].classList.add('explosion-no-loop')
+        playerPosition = null
+        removeAllEnemies() 
+        console.log('player hit - game over')
+        resetButton.style.visibility = 'visible'
+        resetButton.style.animation = 'blink 2s linear infinite'   
+        clearInterval(enemyTimerId)
+        console.log('enemies over boundries - game over')
       }
       if (cells[playerPosition].classList.contains('ghost-shriek')) {
+        clearInterval(enemyTimerId)
+        removePlayer()
+        cells[playerPosition].classList.add('explosion-no-loop')
+        playerPosition = null
+        removeAllEnemies() 
         console.log('player hit - game over')
+        resetButton.style.visibility = 'visible'
+        resetButton.style.animation = 'blink 2s linear infinite'   
         clearInterval(enemyTimerId)
       }
 
-    }, 666)
+    }, 800)
   }
 
     
@@ -179,7 +187,7 @@ function init() {
   let isLaserShooting = true
 
   let laserTimerId = null
-  let explosionTimeoutId = null
+  
 
 
   function addExplosion() {
@@ -196,14 +204,9 @@ function init() {
 
     const laserMovingUp = true
   
-    // clearTimeout(explosionTimerId)
     clearInterval(laserTimerId)
-
     
-    
-    laserTimerId = setInterval(() => {  
-      
-      
+    laserTimerId = setInterval(() => {         
       if (cells[laserPosition].classList.contains('ghost-shriek')) {
         isLaserShooting = true 
         clearInterval(laserTimerId)               
@@ -222,8 +225,7 @@ function init() {
                     
         removeLaser()     
         isLaserShooting = true
-      } else if (laserMovingUp) {     
-             
+      } else if (laserMovingUp) {                
         removeLaser()
         laserPosition = laserPosition - width
         createLaser()  
@@ -242,7 +244,7 @@ function init() {
         clearInterval(enemyTimerId)
         alert('WINNER WINNER!')
       }     
-    }, 25)
+    }, 20)
 
     
 
@@ -265,8 +267,8 @@ function init() {
 
   //* DECLARE FUNCTIONS ON LOAD
   makeGrid()
-  createAllEnemies()
-  createPlayer()
+  // createAllEnemies()
+  // createPlayer()
   
   
   // 

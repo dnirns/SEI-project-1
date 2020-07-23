@@ -36,11 +36,8 @@ body {
   font-size: 10px;
   color: white;
   padding: 10px;
-  border: 2px dashed rgb(145, 145, 145);
-  /* background-image: url('../assets/sprites/space2_4-frames.gif'); */
+  background-image: url('../assets/sprites/space2_4-frames.gif');
   background-repeat: repeat;
- 
-  /* opacity: 0.5; */
   
 }
 
@@ -56,8 +53,7 @@ body {
 .game-grid div {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 1px dotted rgb(169, 164, 164);
+  justify-content: center; 
   height: 3.75vh;
   width: 3.75vh;
 }
@@ -84,21 +80,7 @@ body {
   background-color: lawngreen;
 }
 
-/* .enemy  {
-  background-color: rgb(235, 33, 205);
-} */
-/* .enemy {
-  background-color: rgb(0, 252, 185);
-}
-.enemy {
-  background-color: rgb(26, 84, 134);
-}
-.enemy {
-  background-color: rgb(0, 208, 255);
-} */
-.laser {
-  
-    
+.laser {    
   height: 40px;
   width: 40px;
   background-image: url('../assets/sprites/Plasma_Large_png_processed.png');
@@ -146,26 +128,41 @@ body {
   background-size: contain;
 }
 
-button:hover {
-  cursor: pointer;
+.explosion-no-loop {
+  height: 40px;
+  width: 40px;
+  background-image: url('../assets/sprites/explosion-no-loop.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
 }
-button {
-  margin: 5px 30px;
-  font-family: 'Ancient-Modern-Tales';
-  padding: 10px;
-  font-size: 1.2em;
-  color: white;
-  background-color: rgba(255, 255, 255, 0);
-  
 
 
+#start-button, #reset-button:hover {
+  cursor: pointer;
 }
 
 #start-button {
+  text-align: center;
+  margin: 5px 5px;
+  
+  width: 100%;
+  padding: 10px;
+  font-size: 1.5em;
+  color: rgb(249, 47, 47);  
   animation: blink 2s linear infinite;
-
 }
 
+#reset-button {
+  text-align: center;
+  margin: 5px 5px;
+  font-family: 'Ancient-Modern-Tales';
+  width: 100%;
+  padding: 10px;
+  font-size: 1.5em;
+  color: rgb(249, 47, 47); 
+  visibility: hidden
+  /* animation: blink 2s linear infinite; */
+}
 
 @keyframes blink {
   0% {
@@ -175,6 +172,6 @@ button {
     opacity: 0;
   }
   50% {
-    opacity: 100;
+    opacity: 50;
   }
 }
