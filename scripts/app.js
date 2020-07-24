@@ -38,7 +38,7 @@ function init() {
   const gameWonText = document.querySelector('.game-won')
 
   //? AUDIO
-  const startButtonSfx = new Audio('./assets/audio/start-hover-audio.wav')
+  
   const startSfx = new Audio('./assets/audio/Retro_Game_Sounds_SFX_36.wav')
   const music = new Audio('./assets/audio/Feeble-Screams-from-Forests-unknown-8 bit.mp3')
   const musicWin = new Audio('./assets/audio/8-Bit Trivium - Like Light To The Flies..mp3')
@@ -48,8 +48,8 @@ function init() {
   const enemyDeathAudio = new Audio('./assets/audio/ghost-death.mp3')
   const gameOverLaugh = new Audio('./assets/audio/wickedmalelaugh1.mp3')
   const gameOverAmbience = new Audio('./assets/audio/game-over-ambient.mp3')
- 
- 
+  const gameOverExplosion = new Audio('./assets/audio/game-over-explosion.mp3')
+
 
   //* DOM EXECUTION //
   //? CREATE PLAYER AND ENEMIES
@@ -69,20 +69,17 @@ function init() {
   function removeAllEnemies() {
     enemyPositions.forEach(enemy => cells[enemy].classList.remove('ghost-shriek'))
   }
-  // function startButtonHover() {
-  //   startButtonSfx.play()
-  // }
 
   //* DOM EVENTS //
   //? CLICKS
   resetButton.addEventListener('click', resetClick)
   resetButtonWIn.addEventListener('click', resetClick)
   startButton.addEventListener('click', startClick)
-  // startButton.addEventListener('mouseover', startButtonHover)
+  
   //? KEYS
   document.addEventListener('keyup', startEnter)
   document.addEventListener('keydown', movePlayer)
-  // document.addEventListener('keyup', resetKey)
+  
 
 
   //* GAME FUNCTIONS //
@@ -105,16 +102,8 @@ function init() {
 
   //? RESET GAME - BUTTON AND KEYBOAD INPUT
   function resetClick() {
-    startSfx.play()
     location.reload()
   }
-  // function resetKey(e) {  
-  //   if (e.keyCode === 82) {
-  //     startSfx.play()
-  //     location.reload() 
-  //   }
-  // }
-
 
   //* MOVEMENT //
   //? MOVE PLAYER WITH KEYS
@@ -134,11 +123,12 @@ function init() {
       moveLaser()
     }
     if (cells[playerPosition].classList.contains('ghost-shriek')) {
-      console.log('player moved onto enemy')
+      clearInterval(enemyTimerId)
       cells[playerPosition].classList.add('explosion-no-loop')
       removePlayer()
       removeAllEnemies()
       gameOverLaugh.play()
+      gameOverExplosion.play()
       music.pause()
       music.currentTime = 0
       gameOverAmbience.play()
@@ -146,12 +136,11 @@ function init() {
       resetButton.style.visibility = 'visible'
       gameWrapper.style.visibility = 'hidden'
       resetButton.style.animation = 'blink 2s linear infinite'
-      clearInterval(enemyTimerId)
     }
   }
 
   //* ENEMY MOVEMENT
- 
+
   function moveEnemiesRight() {
     removeAllEnemies()
     enemyPositions = enemyPositions.map(enemy => enemy + 1)
@@ -189,41 +178,43 @@ function init() {
         moveEnemiesDown()
       }
       if (cells[bottomLeftGridIndex].classList.contains('ghost-shriek')) {      
+        clearInterval(enemyTimerId)
         cells[playerPosition].classList.add('explosion-no-loop')
         removePlayer()
         removeAllEnemies()
         gameOverLaugh.play()
+        gameOverExplosion.play()
         music.pause()
         music.currentTime = 0
         gameOverAmbience.play()
         gameOverText.style.visibility = 'visible'
         resetButton.style.visibility = 'visible'
         gameWrapper.style.visibility = 'hidden'
-        resetButton.style.animation = 'blink 2s linear infinite'
-        clearInterval(enemyTimerId)
-      }
-      if (cells[playerPosition].classList.contains('ghost-shriek')) {
-        cells[playerPosition].classList.add('explosion-no-loop')
-        removePlayer()
-        removeAllEnemies()
-        gameOverLaugh.play()
-        music.pause()
-        music.currentTime = 0
-        gameOverAmbience.play()
-        gameOverText.style.visibility = 'visible'
-        resetButton.style.visibility = 'visible'
-        gameWrapper.style.visibility = 'hidden'
-        resetButton.style.animation = 'blink 2s linear infinite'
-        clearInterval(enemyTimerId)
+        resetButton.style.animation = 'blink 2s linear infinite'     
       }
 
-    }, 500)
+      if (cells[playerPosition].classList.contains('ghost-shriek')) {
+        clearInterval(enemyTimerId)
+        cells[playerPosition].classList.add('explosion-no-loop')
+        removePlayer()
+        removeAllEnemies()
+        gameOverExplosion.play()
+        gameOverLaugh.play()
+        music.pause()
+        music.currentTime = 0
+        gameOverAmbience.play()
+        gameOverText.style.visibility = 'visible'
+        resetButton.style.visibility = 'visible'
+        gameWrapper.style.visibility = 'hidden'
+        resetButton.style.animation = 'blink 2s linear infinite'        
+      }
+    }, 600)
   }
 
 
   //* PLAYER SHOOT
   function createLaser() {
-    laserAudio.play()
+    
     cells[laserPosition].classList.add('laser')
   }
 
@@ -232,7 +223,6 @@ function init() {
   }
  
   function addExplosion() {
-    // explosionAudio.play()
     cells[laserPosition].classList.add('explosion')
   }
 
@@ -247,7 +237,9 @@ function init() {
     isLaserShooting = false
     laserPosition = playerPosition
     const laserMovingUp = true
+    
     clearInterval(laserTimerId)
+    laserAudio.play()
     laserTimerId = setInterval(() => {
       if (cells[laserPosition].classList.contains('ghost-shriek')) {
         isLaserShooting = true
@@ -264,10 +256,10 @@ function init() {
       } else if (laserPosition < width) {
         removeLaser()
         isLaserShooting = true
-      } else if (laserMovingUp) {
-        removeLaser()
-        laserPosition = laserPosition - width
-        createLaser()
+      } else if (laserMovingUp) {      
+        removeLaser()       
+        laserPosition = laserPosition - width       
+        createLaser()        
       }
       if (Array.isArray(enemyPositions) && enemyPositions.length) {
         console.log(enemyPositions.length + ' enemies still alive')
@@ -286,7 +278,7 @@ function init() {
         gameWonText.style.visibility = 'visible'
         resetButtonWIn.style.visibility = 'visible'
       }
-    }, 30)
+    }, 50)
   }
 
   //* FUNCTIONS ON LOAD
