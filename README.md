@@ -28,16 +28,16 @@ Space Invaders based game *Soul Inhabitants*, made solo with vanilla JavaScript 
 
 ### Game start and primary gamplay:
 
-![demo1](space-invaders-1.gif)
+![demo1](./assets/gifs/space-invaders-1.gif)
 
 
 ### Game end - player loss:
 
-![demo2](space-invaders-2.gif)
+![demo2](./assets/gifs/space-invaders-2.gif)
 
 ### Game end - player win:
 
-![demo3](space-invaders-3.gif)
+![demo3](./assets/gifs/space-invaders-3.gif)
 
 
 
