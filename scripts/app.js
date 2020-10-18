@@ -13,7 +13,7 @@ function init() {
   }
 
   //* GAME ARRAYS AND GLOBAL VARIABLES //
- 
+
   const cells = []
   const enemiesRow1Array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   const enemiesRow2Array = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
@@ -38,12 +38,12 @@ function init() {
   const gameWonText = document.querySelector('.game-won')
 
   //? AUDIO
-  
+
   const startSfx = new Audio('./assets/audio/Retro_Game_Sounds_SFX_36.wav')
   const music = new Audio('./assets/audio/Feeble-Screams-from-Forests-unknown-8 bit.mp3')
   const musicWin = new Audio('./assets/audio/8-Bit Trivium - Like Light To The Flies..mp3')
   const laserAudio = new Audio('./assets/audio/laser_014.mp3')
-  
+
   const enemyHitAudio = new Audio('./assets/audio/explosion_29.wav')
   const enemyDeathAudio = new Audio('./assets/audio/ghost-death.mp3')
   const gameOverLaugh = new Audio('./assets/audio/wickedmalelaugh1.mp3')
@@ -75,18 +75,18 @@ function init() {
   resetButton.addEventListener('click', resetClick)
   resetButtonWIn.addEventListener('click', resetClick)
   startButton.addEventListener('click', startClick)
-  
+
   //? KEYS
   document.addEventListener('keyup', startEnter)
   document.addEventListener('keydown', movePlayer)
-  
+
 
 
   //* GAME FUNCTIONS //
   //? START GAME - BUTTON AND ENTER KEY
   function startClick() {
     startSfx.play()
-    music.play()    
+    music.play()
     startButton.style.visibility = 'hidden'
     gameWrapper.style.visibility = 'visible'
     createPlayer()
@@ -95,7 +95,7 @@ function init() {
   }
 
   function startEnter(e) {
-    if (e.keyCode === 13) {  
+    if (e.keyCode === 13) {
       startClick()
     }
   }
@@ -159,7 +159,6 @@ function init() {
     createAllEnemies()
   }
 
-
   const bottomLeftGridIndex = (width * width) - width + 1
   let enemyTimerId = null
 
@@ -177,7 +176,7 @@ function init() {
         enemyDirection = !enemyDirection
         moveEnemiesDown()
       }
-      if (cells[bottomLeftGridIndex].classList.contains('ghost-shriek')) {      
+      if (cells[bottomLeftGridIndex].classList.contains('ghost-shriek')) {
         clearInterval(enemyTimerId)
         cells[playerPosition].classList.add('explosion-no-loop')
         removePlayer()
@@ -190,7 +189,7 @@ function init() {
         gameOverText.style.visibility = 'visible'
         resetButton.style.visibility = 'visible'
         gameWrapper.style.visibility = 'hidden'
-        resetButton.style.animation = 'blink 2s linear infinite'     
+        resetButton.style.animation = 'blink 2s linear infinite'
       }
 
       if (cells[playerPosition].classList.contains('ghost-shriek')) {
@@ -206,7 +205,7 @@ function init() {
         gameOverText.style.visibility = 'visible'
         resetButton.style.visibility = 'visible'
         gameWrapper.style.visibility = 'hidden'
-        resetButton.style.animation = 'blink 2s linear infinite'        
+        resetButton.style.animation = 'blink 2s linear infinite'
       }
     }, 600)
   }
@@ -214,14 +213,14 @@ function init() {
 
   //* PLAYER SHOOT
   function createLaser() {
-    
+
     cells[laserPosition].classList.add('laser')
   }
 
   function removeLaser() {
     cells[laserPosition].classList.remove('laser')
   }
- 
+
   function addExplosion() {
     cells[laserPosition].classList.add('explosion')
   }
@@ -234,11 +233,11 @@ function init() {
     if (!isLaserShooting) {
       return
     }
-    
+
     isLaserShooting = false
     laserPosition = playerPosition
     const laserMovingUp = true
-    
+
     clearInterval(laserTimerId)
     laserAudio.play()
     laserTimerId = setInterval(() => {
@@ -257,10 +256,10 @@ function init() {
       } else if (laserPosition < width) {
         removeLaser()
         isLaserShooting = true
-      } else if (laserMovingUp) {      
-        removeLaser()       
-        laserPosition = laserPosition - width       
-        createLaser()        
+      } else if (laserMovingUp) {
+        removeLaser()
+        laserPosition = laserPosition - width
+        createLaser()
       }
       if (Array.isArray(enemyPositions) && enemyPositions.length) {
         console.log(enemyPositions.length + ' enemies still alive')
