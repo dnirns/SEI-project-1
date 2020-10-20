@@ -19,10 +19,10 @@ A space Invaders based game *Soul Inhabitants*, created solo with only vanilla J
 
 ## Technologies Used:
 
-* Vanilla JavaScript (ES6)
-* HTML
-* CSS
-* Git / GitHub
+* Vanilla JavaScript (ES6).
+* HTML.
+* CSS.
+* Git / GitHub.
 * Adobe Photoshop for animating the sprites.
 * Adobe Audition for editing music and sound effects.
 
